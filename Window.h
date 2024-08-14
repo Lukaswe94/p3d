@@ -1,18 +1,18 @@
 #pragma once
 #include "P3dWin.h" 
 
-class Win32Window
+class Window
 {
 	public:
-	Win32Window() = default;
+	Window() = default;
 	//Win32Window( const Win32Window& wnd );
-	Win32Window( HINSTANCE hInstance, LPCWSTR pClassname );
-	~Win32Window();
+	Window( HINSTANCE hInstance, LPCWSTR pClassname );
+	~Window();
 	BOOL __stdcall Show( int nCmdShow );
 	LPCWSTR GetName() const;
 	HWND GetHandle() const;
 	HINSTANCE GetInstance() const;
-	RECT GetRect() const;
+	RECT GetWindowRect() const;
 	int ShowErrorWindow( LPCWSTR text, LPCWSTR caption, UINT type );
 
 	private:

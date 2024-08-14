@@ -140,17 +140,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileInfo.cpp" />
-    <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="Win32App.cpp" />
-    <ClCompile Include="Win32Window.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileInfo.h" />
-    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="P3dWin.h" />
-    <ClInclude Include="Win32App.h" />
-    <ClInclude Include="Win32Window.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

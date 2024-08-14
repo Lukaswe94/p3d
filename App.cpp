@@ -1,21 +1,21 @@
-#include "Win32App.h"
+#include "App.h"
 
-Win32App::Win32App( Win32Window &window ) noexcept
+App::App( Window &window, Renderer &renderer ) noexcept : renderer(renderer), wnd(window)
 {
-	wnd = window;
 }
 
-WPARAM Win32App::MainLoop()
+WPARAM App::MainLoop()
 {
 	BOOL bRet;
 	MSG msg;
 
-	this->wnd.Show( SW_SHOWMAXIMIZED );
+	this->wnd.Show( SW_SHOW );
 
 	while ( ( bRet = GetMessage( &msg, NULL, 0, 0 ) ) > 0 )
 	{
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
+		renderer.Render();
 	}
 
 	if ( bRet == -1 )
@@ -28,7 +28,7 @@ WPARAM Win32App::MainLoop()
 	}
 }
 
-Win32App::~Win32App()
+App::~App()
 {
 }
 

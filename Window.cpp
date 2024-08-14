@@ -1,4 +1,4 @@
-#include "Win32Window.h"
+#include "Window.h"
 #include <format>
 using namespace std;
 
@@ -9,7 +9,7 @@ using namespace std;
 //	this->hInstance = wnd.GetInstance();
 //}
 
-Win32Window::Win32Window( HINSTANCE hInstance, LPCWSTR pClassname )
+Window::Window( HINSTANCE hInstance, LPCWSTR pClassname )
 {
 	this->Classname = pClassname;
 	this->hInstance = hInstance;
@@ -50,44 +50,44 @@ Win32Window::Win32Window( HINSTANCE hInstance, LPCWSTR pClassname )
 	);
 }
 
-Win32Window::~Win32Window()
+Window::~Window()
 {
 	UnregisterClass( this->Classname, this->hInstance );
 }
 
-BOOL __stdcall Win32Window::Show( int nCmdShow )
+BOOL __stdcall Window::Show( int nCmdShow )
 {
 	return ShowWindow(this->hWnd, nCmdShow);
 }
 
-LPCWSTR Win32Window::GetName() const
+LPCWSTR Window::GetName() const
 {
 	return this->Classname;
 }
 
-HWND Win32Window::GetHandle() const
+HWND Window::GetHandle() const
 {
 	return this->hWnd;
 }
 
-HINSTANCE Win32Window::GetInstance() const
+HINSTANCE Window::GetInstance() const
 {
 	return this->hInstance;
 }
 
-RECT Win32Window::GetRect() const
+RECT Window::GetWindowRect() const
 {
 	RECT rect = {};
 	GetClientRect(this->GetHandle(), &rect);
 	return rect;
 }
 
-int Win32Window::ShowErrorWindow(LPCWSTR text, LPCWSTR caption, UINT type )
+int Window::ShowErrorWindow(LPCWSTR text, LPCWSTR caption, UINT type )
 {
 	return MessageBox( GetHandle(), text, caption, type );
 }
 
-LRESULT Win32Window::HandleMsg( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT Window::HandleMsg( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
 	std::string s;
 	std::wstring stemp;
