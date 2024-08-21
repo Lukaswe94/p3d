@@ -4,16 +4,18 @@
 class Window
 {
 	public:
-	Window() = default;
-	//Win32Window( const Win32Window& wnd );
+	Window() = delete;
+	Window( Window&& wnd ) noexcept;
 	Window( HINSTANCE hInstance, LPCWSTR pClassname );
 	~Window();
-	BOOL __stdcall Show( int nCmdShow );
+	BOOL __stdcall Show( int nCmdShow ) const;
 	LPCWSTR GetName() const;
 	HWND GetHandle() const;
 	HINSTANCE GetInstance() const;
 	RECT GetWindowRect() const;
-	int ShowErrorWindow( LPCWSTR text, LPCWSTR caption, UINT type );
+	long GetWidth() const;
+	long GetHeight() const;
+	int ShowErrorWindow( LPCWSTR text, LPCWSTR caption, UINT type ) const;
 
 	private:
 	static LRESULT HandleMsg( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );

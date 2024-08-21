@@ -2,12 +2,12 @@
 #include <format>
 using namespace std;
 
-//Win32Window::Win32Window( const Win32Window& wnd ) 
-//{
-//	this->Classname = wnd.GetName();
-//	this->hWnd = wnd.GetHandle();
-//	this->hInstance = wnd.GetInstance();
-//}
+Window::Window( Window&& wnd ) noexcept 
+	: Classname( std::move( wnd.Classname ) )
+	, hWnd( std::move( wnd.hWnd ) )
+	, hInstance( std::move( wnd.hInstance ) )
+{
+}
 
 Window::Window( HINSTANCE hInstance, LPCWSTR pClassname )
 {
@@ -30,7 +30,7 @@ Window::Window( HINSTANCE hInstance, LPCWSTR pClassname )
 
 	if ( !RegisterClassEx( &wc ) )
 	{
-		throw std::exception("Error registering Windowclass");
+		throw std::exception( "Error registering Windowclass" );
 	}
 
 	//create window instance
@@ -38,7 +38,7 @@ Window::Window( HINSTANCE hInstance, LPCWSTR pClassname )
 		WS_EX_LEFT,
 		GetName(),
 		L"Window",
-		WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_VISIBLE | WS_SYSMENU | WS_MAXIMIZE,
+		WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_VISIBLE | WS_SYSMENU,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -55,9 +55,9 @@ Window::~Window()
 	UnregisterClass( this->Classname, this->hInstance );
 }
 
-BOOL __stdcall Window::Show( int nCmdShow )
+BOOL __stdcall Window::Show( int nCmdShow ) const
 {
-	return ShowWindow(this->hWnd, nCmdShow);
+	return ShowWindow( this->hWnd, nCmdShow );
 }
 
 LPCWSTR Window::GetName() const
@@ -78,11 +78,25 @@ HINSTANCE Window::GetInstance() const
 RECT Window::GetWindowRect() const
 {
 	RECT rect = {};
-	GetClientRect(this->GetHandle(), &rect);
+	BOOL rv = GetClientRect( this->GetHandle(), &rect );
+	if ( !rv ) {
+		throw;
+	}
 	return rect;
 }
 
-int Window::ShowErrorWindow(LPCWSTR text, LPCWSTR caption, UINT type )
+long Window::GetWidth() const
+{
+	RECT rect = GetWindowRect();
+	return rect.right - rect.left;
+}
+
+long Window::GetHeight() const
+{
+	RECT rect = GetWindowRect();
+	return rect.bottom - rect.top;
+}
+int Window::ShowErrorWindow( LPCWSTR text, LPCWSTR caption, UINT type ) const
 {
 	return MessageBox( GetHandle(), text, caption, type );
 }
@@ -98,7 +112,7 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 			PostQuitMessage( 69 );
 			break;
 		case WM_KEYDOWN:
-			s = std::format( "{}", (char)wParam );
+			s = std::format( "{}", ( char )wParam );
 			stemp = std::wstring( s.begin(), s.end() );
 			SetWindowText( hWnd, stemp.c_str() );
 			break;

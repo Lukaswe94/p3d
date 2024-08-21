@@ -47,3 +47,13 @@
 #define STRICT
 
 #include <Windows.h>
+
+#ifndef ERROR_H
+#define ERROR_H
+inline void ThrowIfFailed( HRESULT hr )
+{
+	if ( FAILED( hr ) ) {
+		throw;
+	}
+}
+#endif

@@ -53,15 +53,19 @@ int CALLBACK WinMain( _In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 			OutputDebugString( desc.Description );
 		}
 	}
-
+	//factory->Release();
+	//adapter->Release();
 	//RECT rect = wnd.GetWindowRect();
 	//long width = rect.right - rect.left;
 	//long height = rect.bottom - rect.top;
-	Renderer renderer;
-	renderer.Initialize( wnd );
-	renderer.CreateShaders();
+	Renderer renderer(wnd);
+	if ( FAILED( hr ) )
+	{
+		return hr;
+	}
 	App app( wnd, renderer );
 	app.MainLoop();
+
 	//DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 	//ZeroMemory( &swapChainDesc, sizeof( DXGI_SWAP_CHAIN_DESC ) );
 	//swapChainDesc.BufferCount = 1;

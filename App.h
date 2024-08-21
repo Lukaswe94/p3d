@@ -6,12 +6,13 @@
 class App
 {
 	public:
-	App( Window&window, Renderer &renderer ) noexcept;
+	App() = delete;
+	App( Window& window, Renderer& renderer ) noexcept;
 	~App();
 	WPARAM MainLoop();
 
 	private:
-	Window wnd;
+	Window window;
 	Renderer renderer;
 };
 

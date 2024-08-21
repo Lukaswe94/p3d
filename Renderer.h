@@ -9,21 +9,33 @@
 class Renderer
 {
 	public:
-	Renderer() = default;
-	bool operator==( const Renderer& other ) const = default;
+	Renderer() = delete;
+	Renderer( Window& wnd );
+	Renderer( Renderer&& renderer ) noexcept;
 	~Renderer();
 
-	HRESULT CreateShaders();
-	HRESULT Initialize( Window wnd );
+	void CreateShaders();
+	//depthview
+	void CreateViews();
+	void CreateViewport();
+	void CreateDepthStencilState();
+	void CreateRasterizerState();
+	void CreateSwapchainAndDevice();
 	void Render();
 	void Update();
 
 	private: 
-	ID3D11Device* device_ptr;
-	IDXGISwapChain* swap_chain_ptr;
-	ID3D11DeviceContext* device_context_ptr;
-	ID3D11RenderTargetView* render_target_view_ptr;
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> vertex_shader_ptr;
-	Microsoft::WRL::ComPtr<ID3D11PixelShader> pixel_shader_ptr;
+	Window window;
+	D3D11_VIEWPORT _viewport;
+	Microsoft::WRL::ComPtr<ID3D11Device> _device;
+	Microsoft::WRL::ComPtr<IDXGISwapChain> _swapChain;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> _deviceContext;
+	Microsoft::WRL::ComPtr<ID3D11VertexShader> _vertexShader;
+	Microsoft::WRL::ComPtr<ID3D11PixelShader> _pixelShader;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _renderTargetView;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthStencilView;
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterState;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _depthStencilState;
+	Microsoft::WRL::ComPtr<ID3D11Debug> _debug;
 };
 

@@ -1,31 +1,31 @@
 #include "App.h"
 
-App::App( Window &window, Renderer &renderer ) noexcept : renderer(renderer), wnd(window)
+App::App( Window& window, Renderer& renderer ) noexcept : renderer( std::move( renderer ) ), window( std::move( window ) )
 {
 }
 
 WPARAM App::MainLoop()
 {
-	BOOL bRet;
 	MSG msg;
-
-	this->wnd.Show( SW_SHOW );
-
-	while ( ( bRet = GetMessage( &msg, NULL, 0, 0 ) ) > 0 )
+	this->window.Show( SW_SHOW );
+	bool running = true;
+	HRESULT rv = S_OK;
+	while ( running )
 	{
-		TranslateMessage( &msg );
-		DispatchMessage( &msg );
+		if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+		{
+			TranslateMessage( &msg );
+			DispatchMessage( &msg );
+
+			if ( msg.message == WM_QUIT )
+			{
+				running = false;
+			}
+		}
 		renderer.Render();
 	}
 
-	if ( bRet == -1 )
-	{
-		return -1;
-	}
-	else
-	{
-		return msg.wParam;
-	}
+	return 0;
 }
 
 App::~App()
