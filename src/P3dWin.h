@@ -1,5 +1,4 @@
 #pragma once
-
 // target Windows 7 or later
 #define _WIN32_WINNT 0x0601
 #include <sdkddkver.h>
@@ -10,7 +9,6 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
 #define NOSYSMETRICS
-#define NOMENUS
 #define NOICONS
 #define NOSYSCOMMANDS
 #define NORASTEROPS
@@ -50,10 +48,13 @@
 
 #ifndef ERROR_H
 #define ERROR_H
-inline void ThrowIfFailed( HRESULT hr )
+namespace DX
 {
-	if ( FAILED( hr ) ) {
-		throw;
+	inline void ThrowIfFailed( const HRESULT hr )
+	{
+		if ( FAILED( hr ) ) {
+			throw;
+		}
 	}
 }
 #endif

@@ -1,17 +1,15 @@
 #include "Window.h"
-#include <format>
-using namespace std;
 
-Window::Window( Window&& wnd ) noexcept 
-	: Classname( std::move( wnd.Classname ) )
-	, hWnd( std::move( wnd.hWnd ) )
+Window::Window( Window&& wnd ) noexcept
+	: hWnd( std::move( wnd.hWnd ) )
+	, classname( std::move( wnd.classname ) )
 	, hInstance( std::move( wnd.hInstance ) )
 {
 }
 
 Window::Window( HINSTANCE hInstance, LPCWSTR pClassname )
 {
-	this->Classname = pClassname;
+	this->classname = pClassname;
 	this->hInstance = hInstance;
 
 	//register window class
@@ -48,11 +46,22 @@ Window::Window( HINSTANCE hInstance, LPCWSTR pClassname )
 		GetInstance(),
 		nullptr
 	);
+
+
+	this->hMenu = CreateMenu();
+	MENUITEMINFO menuItemInfo = { 0 };
+	menuItemInfo.cbSize = sizeof( MENUITEMINFO );
+	menuItemInfo.fMask = MIIM_TYPE | MIIM_ID;
+	menuItemInfo.fType = MFT_STRING;
+	menuItemInfo.fState = MFS_DEFAULT;
+	menuItemInfo.dwTypeData = const_cast< wchar_t* >( L"Test" );
+	InsertMenuItem( hMenu, 0, true, &menuItemInfo );
+	SetMenu( this->hWnd, this->hMenu );
 }
 
 Window::~Window()
 {
-	UnregisterClass( this->Classname, this->hInstance );
+	UnregisterClass( this->classname, this->hInstance );
 }
 
 BOOL __stdcall Window::Show( int nCmdShow ) const
@@ -62,7 +71,7 @@ BOOL __stdcall Window::Show( int nCmdShow ) const
 
 LPCWSTR Window::GetName() const
 {
-	return this->Classname;
+	return this->classname;
 }
 
 HWND Window::GetHandle() const
@@ -108,16 +117,21 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 
 	switch ( uMsg )
 	{
-		case WM_DESTROY:
-			PostQuitMessage( 69 );
-			break;
-		case WM_KEYDOWN:
-			s = std::format( "{}", ( char )wParam );
-			stemp = std::wstring( s.begin(), s.end() );
-			SetWindowText( hWnd, stemp.c_str() );
-			break;
-		default:
-			return DefWindowProc( hWnd, uMsg, wParam, lParam );
+	case WM_DESTROY:
+		PostQuitMessage( 69 );
+		if ( const HMENU hMenu = GetMenu( hWnd ); hMenu != nullptr )
+		{
+			DestroyMenu( hMenu );
+		}
+		DestroyWindow( hWnd );
+		break;
+	case WM_KEYDOWN:
+		s = std::format( "{}", static_cast< char >( wParam ) );
+		stemp = std::wstring( s.begin(), s.end() );
+		SetWindowText( hWnd, stemp.c_str() );
+		break;
+	default:
+		return DefWindowProc( hWnd, uMsg, wParam, lParam );
 	}
 
 	return 0;

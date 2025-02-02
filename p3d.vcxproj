@@ -80,6 +80,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\d3d11.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxguid.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxgi.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\User32.Lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -96,6 +97,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\d3d11.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxguid.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxgi.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\User32.Lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,6 +116,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\d3d11.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxguid.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxgi.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\User32.Lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,24 +139,32 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\d3d11.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxguid.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\dxgi.lib";"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22621.0\um\x64\User32.Lib";%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FileInfo.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="src\Geometry\Square.cpp" />
+    <ClCompile Include="src\FileInfo.cpp" />
+    <ClCompile Include="src\Renderer\D3d11Renderer.cpp" />
+    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\Geometry\Triangle.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileInfo.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="P3dWin.h" />
-    <ClInclude Include="App.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="src\Geometry\Square.h" />
+    <ClInclude Include="src\FileInfo.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="src\Geometry\Shape.h" />
+    <ClInclude Include="src\Renderer\D3d11Renderer.h" />
+    <ClInclude Include="src\P3dWin.h" />
+    <ClInclude Include="src\App.h" />
+    <ClInclude Include="src\Geometry\Triangle.h" />
+    <ClInclude Include="src\Geometry\Vertex.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl">
+    <FxCompile Include="shaders\PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -163,7 +174,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="VertexShader.hlsl">
+    <FxCompile Include="shaders\VertexShader.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSmain</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
